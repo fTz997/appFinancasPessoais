@@ -39,19 +39,16 @@ class Bd {
   }
 
   recuperarTodosRegistros() {
-    let despesas = Array()
+    console.log('Iniciou o recuperarTodosRegistros')
     let id = localStorage.getItem('id')
-
-    //recuperar todas as despesas no local storage
+    // recuperar as despesas cadastradas
     for (let i = 1; i <= id; i++) {
-      let despesa = JSON.parse(localStorage.getItem(i))
-      if (despesa === null) {
-        continue
-      }
-      despesas.push(despesa)
+      // recuperar a despesa
+      console.log('Está passando no loop') //<-- ADICIONE ESTA LINHA
+      let despesa = localStorage.getItem(i)
+      console.log(despesa)
     }
-
-    return despesas
+    console.log('Terminou o recuperarTodosRegistros')
   }
 }
 
@@ -76,41 +73,37 @@ function cadastrarDespesa() {
 
   if (despesa.validarDados()) {
     bd.gravar(despesa)
-
-    document.getElementById('modalTitulo').innerHTML = 'Registrado com sucesso'
-    document.getElementById('modalTituloDiv').className =
-      'modal-header text-success'
-    document.getElementById('modalConteudo').innerHTML =
-      'Despesa foi cadastrada com sucesso!'
-    document.getElementById('modalBtn').innerHTML = 'Voltar'
-    document.getElementById('modalBtn').className = 'btn btn-success'
-
+    estiloSuccess()
     $('#modalRegistraDespesa').modal('show')
   } else {
-    document.getElementById('modalTitulo').innerHTML =
-      'Erro na inclusão do registro'
-    document.getElementById('modalTituloDiv').className =
-      'modal-header text-danger'
-    document.getElementById('modalConteudo').innerHTML =
-      'Erro na gravação, verifique se todos os campos foram preenchidos corretamente!'
-    document.getElementById('modalBtn').innerHTML = 'Voltar e corrigir'
-    document.getElementById('modalBtn').className = 'btn btn-danger'
+    estiloError()
     $('#modalRegistraDespesa').modal('show')
   }
 }
 
+function estiloSuccess() {
+  document.getElementById('modalTitulo').innerHTML = 'Registrado com sucesso'
+  document.getElementById('modalTituloDiv').className =
+    'modal-header text-success'
+  document.getElementById('modalConteudo').innerHTML =
+    'Despesa foi cadastrada com sucesso!'
+  document.getElementById('modalBtn').innerHTML = 'Voltar'
+  document.getElementById('modalBtn').className = 'btn btn-success'
+}
+
+function estiloError() {
+  document.getElementById('modalTitulo').innerHTML =
+    'Erro na inclusão do registro'
+  document.getElementById('modalTituloDiv').className =
+    'modal-header text-danger'
+  document.getElementById('modalConteudo').innerHTML =
+    'Erro na gravação, verifique se todos os campos foram preenchidos corretamente!'
+  document.getElementById('modalBtn').innerHTML = 'Voltar e corrigir'
+  document.getElementById('modalBtn').className = 'btn btn-danger'
+}
+
 function carregaListaDespesas() {
-  let despesas = Array()
-  despesas = bd.recuperarTodosRegistros()
-
-  let listaDespesas = document.getElementById('listaDespesas')
-
-  despesas.forEach(function (d) {
-    console.log(d)
-    let linha = listaDespesas.insertRow()
-    linha.incertCell(0).innerHTML = d.dia
-    linha.incertCell(1)
-    linha.incertCell(2)
-    linha.incertCell(3)
-  })
+  console.log('Iniciou o carregaListaDespesas')
+  bd.recuperarTodosRegistros()
+  console.log('Terminou o carregaListaDespesas')
 }
